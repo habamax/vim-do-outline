@@ -2,7 +2,9 @@
 
 Outline current asciidoc(tor) file:
 
-* Open split outline buffer with only sections
-* Goto selected section with `<CR>`
+* Open split outline buffer with sections only.
+* Goto selected section with `<CR>`.
 
 NOTE: markdown would also be added
+
+image::https://i.imgur.com/4CStDMi.gif[]
