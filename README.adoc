@@ -8,3 +8,11 @@ Outline current asciidoc(tor) file:
 NOTE: markdown would also be added
 
 image::https://i.imgur.com/4CStDMi.gif[]
+
+== Usage
+
+    :DoOutline
+
+Mapping example:
+
+    :nnoremap <leader>l :DoOutline<CR>
