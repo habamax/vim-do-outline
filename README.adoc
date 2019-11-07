@@ -16,3 +16,18 @@ image::https://i.imgur.com/4CStDMi.gif[]
 Mapping example:
 
     :nnoremap <leader>l :DoOutline<CR>
+
+== Colors
+
+To change outline colors use the next highlight groups (use your own colors of course, these are randomly picked):
+
+	:hi DoOutlineLevel0 guifg=red gui=bold ctermfg=red cterm=bold
+	:hi DoOutlineLevel1 guifg=green gui=italic ctermfg=red cterm=italic
+	:hi DoOutlineLevel2 guifg=blue gui=NONE ctermfg=red cterm=NONE
+	:hi DoOutlineLevel3 guifg=magenta gui=NONE ctermfg=magenta cterm=NONE
+	:hi link DoOutlineLevel4 Constant
+	:hi link DoOutlineLevel5 Normal
+	:hi link DoOutlineLevel6 Special
+	:hi link DoOutlineLevel7 Normal
+	:hi link DoOutlineLevel8 Special
+	:hi link DoOutlineLevel9 Normal
