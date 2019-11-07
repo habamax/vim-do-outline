@@ -1,4 +1,10 @@
+let s:do_outline_filetypes = ['asciidoc', 'asciidoctor']
+
 func! do_outline#do_outline() abort
+	if index(s:do_outline_filetypes, &filetype) < 0
+		echomsg &filetype . ' filetype is not supported.'
+		return
+	endif
 	let [bufnr, outline_pos, outline] = s:rebuild_outline()
 	call s:show_outline(bufnr, outline)
 	exe 'normal ' . outline_pos . 'gg'
