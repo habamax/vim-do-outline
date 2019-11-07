@@ -1,0 +1,8 @@
+﻿= [WIP] Do Outline
+
+Outline current asciidoc(tor) file:
+
+* Open split outline buffer with only sections
+* Goto selected section with `<CR>`
+
+NOTE: markdown would also be added
