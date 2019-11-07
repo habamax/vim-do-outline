@@ -16,27 +16,25 @@ func! s:rebuild_outline() abort
 	let outline_pos = -1
 	let cursor_pos = getcurpos()[1]
 
-	let line_idx = 0
-	let buf_lines = getbufline(bufnr, 0, '$')
-	for line in buf_lines
+	for linenr in range(0, line('$'))
+		let line = getline(linenr)
 		let match = matchlist(line, '^\(=\+\)\s\+\(.*\)$')
 		if !empty(match)
 			let level = len(match[1]) - 1
 			let line = repeat("\t", level) . match[2]
-			call add(outline, {"line_nr": line_idx, "text": line})
+			call add(outline, {"line_nr": linenr, "text": line})
 		endif
-		if outline_pos == -1 && line_idx >= cursor_pos
+		if outline_pos == -1 && linenr >= cursor_pos
 			let outline_pos = len(outline)
 		endif
-		let line_idx += 1
 	endfor
 	" return buffer number, cursorline, outline info
 	return [bufnr, outline_pos, outline]
 endfunc
 
 func! s:goto_outline() abort
-	let outline_idx = line('.') - 1
-	let src_idx = b:outline[outline_idx]['line_nr'] + 1
+	let outline_idx = line('.')
+	let src_idx = b:outline[outline_idx-1]['line_nr']
 
 	let bufwinnr = bufwinnr(b:outline_src_bufnr)
 	if bufwinnr == -1
@@ -57,8 +55,7 @@ func! s:show_outline(bufnr, outline) abort
 	let b:outline_src_bufnr = a:bufnr
 	let b:outline = a:outline
 
-	call append(0, map(copy(b:outline), {k,v -> v.text}))
-	$delete _
+	call setline(1, map(copy(b:outline), {k,v -> v.text}))
 
 	nnoremap <buffer> <CR> :call <SID>goto_outline()<CR>
 	syn match DoOutlineLevel0 '^[^\t].*$'
