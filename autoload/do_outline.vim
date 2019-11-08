@@ -1,24 +1,30 @@
-let s:do_outline_filetypes = ['asciidoc', 'asciidoctor']
+let s:do_outline_filetypes = ['asciidoc', 'asciidoctor', 'markdown']
+
+let s:outline_rx = {
+			\'asciidoctor': '^\(=\+\)\s\+\(.*\)$'
+			\, 'asciidoc': '^\(=\+\)\s\+\(.*\)$'
+			\, 'markdown': '^\(#\+\)\s\+\(.*\)$'
+			\}
 
 func! do_outline#do_outline() abort
 	if index(s:do_outline_filetypes, &filetype) < 0
 		echomsg &filetype . ' filetype is not supported.'
 		return
 	endif
-	let [bufnr, outline_pos, outline] = s:rebuild_outline()
+
+	let [bufnr, outline_pos, outline] = s:rebuild_outline(s:outline_rx[&filetype])
 	call s:show_outline(bufnr, outline)
 	exe 'normal ' . outline_pos . 'gg'
 endfunc
 
-func! s:rebuild_outline() abort
-	let bufnr = bufnr('%')
+func! s:rebuild_outline(regexp) abort
 	let outline = []
 	let outline_pos = -1
 	let cursor_pos = getcurpos()[1]
 
 	for linenr in range(0, line('$'))
 		let line = getline(linenr)
-		let match = matchlist(line, '^\(=\+\)\s\+\(.*\)$')
+		let match = matchlist(line, a:regexp)
 		if !empty(match)
 			let level = len(match[1]) - 1
 			let line = repeat("\t", level) . match[2]
@@ -29,7 +35,7 @@ func! s:rebuild_outline() abort
 		endif
 	endfor
 	" return buffer number, cursorline, outline info
-	return [bufnr, outline_pos, outline]
+	return [bufnr('%'), outline_pos, outline]
 endfunc
 
 func! s:goto_outline() abort

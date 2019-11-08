@@ -1,11 +1,9 @@
 ﻿= [WIP] Do Outline
 
-Outline current asciidoc(tor) file:
+Outline current asciidoc(tor) or markdown file:
 
 * Open split outline buffer with sections only.
 * Goto selected section with `<CR>`.
-
-NOTE: markdown would also be added
 
 image::https://i.imgur.com/4CStDMi.gif[]
 
@@ -31,3 +29,9 @@ To change outline colors use the next highlight groups (use your own colors of c
 	:hi link DoOutlineLevel7 Normal
 	:hi link DoOutlineLevel8 Special
 	:hi link DoOutlineLevel9 Normal
+
+== Known Limitations
+
+* Doesn't work for setext-style headers both for asciidoct(or) and markdown.
+* Doesn't detect false headers, i.e. `# comments` in a code block. This might
+  be improved by using vim syntax.
