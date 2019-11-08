@@ -1,18 +1,16 @@
-let s:do_outline_filetypes = ['asciidoc', 'asciidoctor', 'markdown']
-
-let s:outline_rx = {
+let s:do_outline_filetypes = {
 			\'asciidoctor': '^\(=\+\)\s\+\(.*\)$'
 			\, 'asciidoc': '^\(=\+\)\s\+\(.*\)$'
 			\, 'markdown': '^\(#\+\)\s\+\(.*\)$'
 			\}
 
 func! do_outline#do_outline() abort
-	if index(s:do_outline_filetypes, &filetype) < 0
+	if index(keys(s:do_outline_filetypes), &filetype) < 0
 		echomsg &filetype . ' filetype is not supported.'
 		return
 	endif
 
-	let [bufnr, outline_pos, outline] = s:rebuild_outline(s:outline_rx[&filetype])
+	let [bufnr, outline_pos, outline] = s:rebuild_outline(s:do_outline_filetypes[&filetype])
 	call s:show_outline(bufnr, outline)
 	exe 'normal ' . outline_pos . 'gg'
 endfunc
